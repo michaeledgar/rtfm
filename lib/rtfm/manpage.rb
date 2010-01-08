@@ -1,12 +1,22 @@
 module RTFM
-  class ManPage < Struct.new(:name, :section, :date, :summary)
+  class ManPage < Struct.new(:name, :section, :date, :summary, :synopsis, :description)
+    class << self
+      def text_section(*args)
+        args.each do |sect|
+          class_eval %Q{
+            def #{sect}
+              @#{sect} ||= TextSection.new(:#{sect}, "")
+            end
+            def #{sect}=(str)
+              @#{sect} = TextSection.new(:#{sect}, str)
+            end
+          }
+        end
+      end
+      alias_method :text_sections, :text_section
+    end
     
-    attr_accessor :name
-    attr_accessor :section
-    attr_accessor :date
-    attr_accessor :summary
-    attr_accessor :synopsis
-    attr_accessor :description
+    text_section :bugs, :diagnostics, :compatibility, :standards, :history
     
     def initialize(name, section=nil)
       self.name, self.section = name, section
@@ -20,17 +30,6 @@ module RTFM
       @see_also = GroffString.new
       yield @see_also
       @see_also
-    end
-    
-    [:bugs, :diagnostics, :compatibility, :standards, :history].each do |sect|
-      class_eval %Q{
-        def #{sect}
-          @#{sect} ||= TextSection.new(:#{sect}, "")
-        end
-        def #{sect}=(str)
-          @#{sect} = TextSection.new(:#{sect}, str)
-        end
-      }
     end
     
     def to_groff
