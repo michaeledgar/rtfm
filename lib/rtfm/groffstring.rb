@@ -1,24 +1,35 @@
 module RTFM
   class GroffString
     
+    attr_reader :source
+    
     def initialize(str = "")
       @source = str.dup
     end
     
     def to_s
-      @source
+      source
     end
     
+    def rstrip
+      source.rstrip
+    end
+    
+    def add_line(line)
+      source << line.rstrip << "\n"
+    end
+    alias_method :<<, :add_line
+    
     def section(section)
-      ".Sh #{section}"
+      add_line ".Sh #{section}"
+    end
+    
+    def reference(page, section = nil)
+      add_line ".Xr #{page} #{section || ""}"
     end
     
     def method_missing(meth, *args, &block)
-      @source << ".#{meth}"
-      args.each do |arg|
-        @source << " #{arg}"
-      end
-      @source << "\n"
+      add_line ".#{meth} #{args.join(" ")}"
     end
   end
 end
