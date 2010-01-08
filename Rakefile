@@ -51,3 +51,26 @@ rescue LoadError
     abort "YARD is not available. In order to run yardoc, you must: sudo gem install yard"
   end
 end
+
+task :output do
+  require 'lib/rtfm.rb'
+  
+  out = RTFM::ManPage.new("testing", 2) do |page|
+    page.summary = "testing man page"
+    page.description do |desc|
+      desc.body = "This is a small, temporary description of the testing " +
+                  "man page."
+      desc.add_option(:verbose, "The verbose flag does a lot of stuff.")
+      desc.add_option(:input, "The input flag takes a filename", :argument => :input)
+    end
+    page.see_also do |also|
+      also.reference "rails", 1
+      also.reference "ruby"
+    end
+    page.bugs = "There are a few bugs, but nothing too serious."
+    page.history = "This program has a storied history that I am too " +
+                   "lazy to include here."
+  end
+  
+  File.open("testing.2","w") {|o| o << out.to_groff}
+end

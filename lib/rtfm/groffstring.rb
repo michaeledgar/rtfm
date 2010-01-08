@@ -27,7 +27,7 @@ module RTFM
     alias_method :<<, :add_line
     
     def section(section)
-      add_line ".Sh #{section}"
+      add_line ".Sh #{section.upcase}"
     end
     
     def reference(page, section = nil)
