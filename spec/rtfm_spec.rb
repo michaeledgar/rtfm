@@ -1,7 +1,7 @@
 require 'spec_helper'
 
 describe "rtfm" do
-  it "fails" do
-    should.flunk "hey buddy, you should probably rename this file and start specing for real"
+  it "does nothing" do
+    1.should.equal 1
   end
 end

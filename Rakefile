@@ -39,9 +39,9 @@ rescue LoadError
   end
 end
 
-task :test => :check_dependencies
+task :spec => :check_dependencies
 
-task :default => :test
+task :default => :spec
 
 begin
   require 'yard'
