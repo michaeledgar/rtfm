@@ -27,7 +27,7 @@ module RTFM
     end
     
     def see_also
-      @see_also = GroffString.new
+      @see_also = SeeAlsoSection.new
       yield @see_also
       @see_also
     end
@@ -44,10 +44,7 @@ module RTFM
         out << synopsis
         out.section "DESCRIPTION"
         out << description
-        if @see_also
-          out.section "SEE ALSO"
-          out << @see_also
-        end
+        out << @see_also.to_groff if @see_also
         out << @history.to_groff if @history
         out << @bugs.to_groff if @bugs
       end
@@ -59,6 +56,28 @@ module RTFM
       GroffString.groffify do |out|
         out.section title.to_s.upcase
         out << body.to_s
+      end
+    end
+  end
+  
+  class SeeAlsoSection
+    def initialize
+      @references = {}
+    end
+    def reference(title, section = 0)
+      (@references[section] ||= []) << title
+    end
+    def to_groff
+      GroffString.groffify do |out|
+        out.section "SEE ALSO"
+        @references.keys.sort.each do |section|
+          @references[section].sort.each do |title|
+            if section == 0
+            then out.reference title
+            else out.reference title, section
+            end
+          end
+        end
       end
     end
   end

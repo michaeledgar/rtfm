@@ -6,8 +6,10 @@ describe "rtfm" do
               page.date = Date.parse("1/2/2010")
               page.summary = "testing man page"
               page.see_also do |also|
+                also.reference "madeup", 4
                 also.reference "rails", 1
                 also.reference "ruby"
+                also.reference "perl", 1
               end
               page.bugs = "There are a few bugs, but nothing too serious."
               page.history = "This program has a storied history that I am too lazy to include here."
@@ -16,6 +18,31 @@ describe "rtfm" do
   
   it "displays the correct date" do
     @rtfm.to_groff.should.match(/^.Dd January 02, 2010$/)
+  end
+  
+  describe "see-also section" do
+    it "has a see also section" do
+      @rtfm.to_groff.should.match(/^.Sh SEE ALSO/)
+    end
+    
+    it "includes references in its see also section" do
+      groffed = @rtfm.to_groff
+      groffed.should.match(/^.Xr rails 1$/)
+      groffed.should.match(/^.Xr ruby$/)
+      groffed.should.match(/^.Xr perl 1$/)
+      groffed.should.match(/^.Xr madeup 4$/)
+    end
+    
+    it "sorts by section" do
+      groffed = @rtfm.to_groff
+      groffed.index(/^.Xr ruby$/).should.be < groffed.index(/^.Xr rails 1$/)
+      groffed.index(/^.Xr rails 1$/).should.be < groffed.index(/^.Xr madeup 4$/)
+    end
+    
+    it "sorts within sections" do
+      groffed = @rtfm.to_groff
+      groffed.index(/^.Xr perl 1$/).should.be < groffed.index(/^.Xr rails 1$/)
+    end
   end
   
   describe "rtfm-sections" do
@@ -33,15 +60,6 @@ describe "rtfm" do
     
     it "includes its history text" do
       @rtfm.to_groff.should.match(/^This program has a storied history/)
-    end
-    
-    it "has a see also section" do
-      @rtfm.to_groff.should.match(/^.Sh SEE ALSO/)
-    end
-    
-    it "includes references in its see also section" do
-      @rtfm.to_groff.should.match(/^.Xr rails 1$/)
-      @rtfm.to_groff.should.match(/^.Xr ruby$/)
     end
   end
 end
