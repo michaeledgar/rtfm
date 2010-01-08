@@ -3,6 +3,12 @@ module RTFM
     
     attr_reader :source
     
+    def self.groffify(str = "")
+      out = self.new(str)
+      yield out
+      out.to_s
+    end
+    
     def initialize(str = "")
       @source = str.dup
     end
