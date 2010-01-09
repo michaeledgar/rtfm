@@ -14,35 +14,32 @@ module RTFM
         end
       end
       alias_method :text_sections, :text_section
+      
+      def add_section(name, klass)
+        klass = klass.to_s.intern
+        class_eval %Q{
+          def #{name}
+            @#{name} ||= #{klass}.new
+            yield @#{name} if block_given?
+            @#{name}
+          end
+        }
+      end
+      
     end
     
     text_section :bugs, :diagnostics, :compatibility, :standards, :history
+    add_section :see_also, SeeAlsoSection
+    add_section :description, DescriptionSection
+    add_section :authors, AuthorsSection
     
     def initialize(name, section=nil)
       self.name, self.section = name, section
       self.date = DateTime.now
-      self.synopsis = ""
-      self.description = ""
+      self.synopsis = nil
       yield self
     end
-    
-    def see_also
-      @see_also ||= SeeAlsoSection.new
-      yield @see_also if block_given?
-      @see_also
-    end
-    
-    def description
-      @description ||= DescriptionSection.new
-      yield @description if block_given?
-      @description
-    end
-    
-    def authors
-      @authors ||= AuthorsSection.new
-      yield @authors if block_given?
-      @authors
-    end
+
     
     def to_groff
       GroffString.groffify do |out|
