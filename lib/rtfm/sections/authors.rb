@@ -8,6 +8,7 @@ module RTFM
       @authors << {:name => name, :email => email}
     end
     alias_method :author, :add_author
+    alias_method :add, :add_author
     
     def to_groff
       GroffString.groffify do |out|
