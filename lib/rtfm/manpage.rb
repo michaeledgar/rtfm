@@ -1,5 +1,5 @@
 module RTFM
-  class ManPage < Struct.new(:name, :section, :date, :summary, :synopsis, :description)
+  class ManPage < Struct.new(:name, :section, :date, :summary, :synopsis, :description, :authors)
     class << self
       def text_section(*args)
         args.each do |sect|
@@ -38,6 +38,12 @@ module RTFM
       @description
     end
     
+    def authors
+      @authors ||= AuthorsSection.new
+      yield @authors if block_given?
+      @authors
+    end
+    
     def to_groff
       GroffString.groffify do |out|
         out.Dd date.strftime("%B %d, %Y")
@@ -47,10 +53,11 @@ module RTFM
         out.Nm name
         out.Nd summary
         out.section "SYNOPSIS"
-        out << synopsis
+        out << synopsis if synopsis
         out << @description.to_groff if @description
         out << @see_also.to_groff if @see_also
         out << @history.to_groff if @history
+        out << @authors.to_groff if @authors
         out << @bugs.to_groff if @bugs
       end
     end

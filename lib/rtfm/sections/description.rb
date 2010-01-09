@@ -9,8 +9,15 @@ module RTFM
         args << self.title
         
         if opts[:argument] || opts[:arg]
-          args << :Ar
-          args << (opts[:argument] || opts[:arg])
+          argument = (opts[:argument] || opts[:arg])
+          if argument[0,1] == "<" && argument[-2,1] == ">"
+            args << "Ao"
+            args << argument[1..-2]
+            args << "Ac"
+          else
+            args << :Ar
+            args << argument
+          end
         end
         out.It *args
         out << self.desc

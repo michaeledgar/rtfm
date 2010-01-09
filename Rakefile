@@ -61,7 +61,8 @@ task :output do
       desc.body = "This is a small, temporary description of the testing " +
                   "man page."
       desc.add_option(:verbose, "The verbose flag does a lot of stuff.")
-      desc.add_option(:input, "The input flag takes a filename", :argument => :input)
+#      desc.add_option(:silliness, "Set how silly the application should be.", :argument => "n")
+      desc.add_option(:input, "The input flag takes a filename", :argument => "<input>")
     end
     page.see_also do |also|
       also.reference "rails", 1
@@ -70,6 +71,9 @@ task :output do
     page.bugs = "There are a few bugs, but nothing too serious."
     page.history = "This program has a storied history that I am too " +
                    "lazy to include here."
+    page.authors do |section|
+      section.author "Michael Edgar", "adgar@carboni.ca"
+    end
   end
   
   File.open("testing.2","w") {|o| o << out.to_groff}
