@@ -51,11 +51,9 @@ module RTFM
         out.Nd summary
         out.section "SYNOPSIS"
         out << synopsis if synopsis
-        out << @description.to_groff if @description
-        out << @see_also.to_groff if @see_also
-        out << @history.to_groff if @history
-        out << @authors.to_groff if @authors
-        out << @bugs.to_groff if @bugs
+        [@description, @see_also, @history, @authors, @bugs].each do |sect|
+          out << sect.to_groff if sect
+        end
       end
     end
   end
