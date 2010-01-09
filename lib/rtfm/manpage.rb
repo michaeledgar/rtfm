@@ -44,6 +44,14 @@ module RTFM
       yield self
     end
 
+    def add_option(name, desc, opts={})
+      opt = Option.new(name, desc, opts)
+      description.add_option opt
+      unless opts.has_key?(:synopsis) && !opts.delete(:synopsis)
+        synopsis.add_option(opt)
+      end
+    end
+    alias_method :option, :add_option
     
     def to_groff
       GroffString.groffify do |out|

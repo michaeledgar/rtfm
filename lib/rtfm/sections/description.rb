@@ -6,8 +6,11 @@ module RTFM
       yield self if block_given?
     end
     
-    def add_option(title, desc, opts = {})
-      self.options << Option.new(title, desc, opts)
+    def add_option(*args)
+      if args.size == 1 && args.first.is_a?(Option)
+      then self.options << args.first
+      else self.options << Option.new(*args)
+      end
     end
     alias_method :option, :add_option
     

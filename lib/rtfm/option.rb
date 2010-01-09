@@ -2,11 +2,7 @@ module RTFM
   class Option < Struct.new(:title, :desc, :opts)
     def to_groff(how)
       GroffString.groffify do |out|
-        
-        
-        args = []
-        args << :Fl
-        args << self.title
+        args = [:Fl, self.title]
         
         if opts[:argument] || opts[:arg]
           argument = (opts[:argument] || opts[:arg]).to_s
