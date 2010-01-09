@@ -9,14 +9,13 @@ module RTFM
         args << self.title
         
         if opts[:argument] || opts[:arg]
-          argument = (opts[:argument] || opts[:arg])
-          if argument[0,1] == "<" && argument[-2,1] == ">"
-            args << "Ao"
-            args << argument[1..-2]
-            args << "Ac"
+          argument = (opts[:argument] || opts[:arg]).to_s
+          if argument[0,1] == "<" && argument[-1,1] == ">"
+            args << "Ao" << argument[1..-2] << "Ac"
+          elsif argument[0,1] == "[" && argument[-1,1] == "]"
+            args << "Oo" << argument[1..-2] << "Oc"
           else
-            args << :Ar
-            args << argument
+            args << :Ar << argument
           end
         end
         out.It *args
@@ -35,6 +34,7 @@ module RTFM
     def add_option(title, desc, opts = {})
       self.options << Option.new(title, desc, opts)
     end
+    alias_method :option, :add_option
     
     def to_groff
       GroffString.groffify do |out|

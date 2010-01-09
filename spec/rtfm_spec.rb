@@ -18,24 +18,24 @@ describe "rtfm" do
   end
   
   it "displays the correct date" do
-    @groff.should.match(/^.Dd January 02, 2010$/)
+    @groff.should.match(/^\.Dd January 02, 2010$/)
   end
   
   it "has a NAME section" do
-    @groff.should.match(/^.Sh NAME$/)
+    @groff.should.match(/^\.Sh NAME$/)
   end
   
   it "generates a name line" do
-    @groff.should.match(/^.Nm testing/)
+    @groff.should.match(/^\.Nm testing/)
   end
   
   it "generates a summary line" do
-    @groff.should.match(/^.Nd testing man page/)
+    @groff.should.match(/^\.Nd testing man page/)
   end
   
   describe "rtfm-sections" do
     it "has a bugs section" do
-      @groff.should.match(/^.Sh BUGS$/)
+      @groff.should.match(/^\.Sh BUGS$/)
     end
     
     it "includes its bugs text" do
@@ -43,7 +43,7 @@ describe "rtfm" do
     end
     
     it "has a history section" do
-      @groff.should.match(/^.Sh HISTORY$/)
+      @groff.should.match(/^\.Sh HISTORY$/)
     end
     
     it "includes its history text" do
