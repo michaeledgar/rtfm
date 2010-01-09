@@ -26,6 +26,9 @@ module RTFM
         }
       end
       
+      def all_pages
+        @pages ||= []
+      end
     end
     
     text_section :bugs, :diagnostics, :compatibility, :standards, :history
@@ -35,6 +38,7 @@ module RTFM
     add_section :synopsis, SynopsisSection
     
     def initialize(name, section=nil)
+      self.class.all_pages << self
       self.name, self.section = name, section
       self.date = DateTime.now
       yield self
