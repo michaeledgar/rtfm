@@ -27,11 +27,15 @@ module RTFM
     alias_method :<<, :add_line
     
     def section(section)
-      add_line ".Sh #{section.upcase}"
+      self.Sh section.upcase
+    end
+    
+    def put_name
+      self.Nm
     end
     
     def reference(page, section = nil)
-      add_line ".Xr #{page} #{section || ""}"
+      self.Xr page, (section || "")
     end
     
     def method_missing(meth, *args, &block)

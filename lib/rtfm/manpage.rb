@@ -1,5 +1,5 @@
 module RTFM
-  class ManPage < Struct.new(:name, :section, :date, :summary, :synopsis, :description, :authors)
+  class ManPage < Struct.new(:name, :section, :date, :summary)
     class << self
       def text_section(*args)
         args.each do |sect|
@@ -32,11 +32,11 @@ module RTFM
     add_section :see_also, SeeAlsoSection
     add_section :description, DescriptionSection
     add_section :authors, AuthorsSection
+    add_section :synopsis, SynopsisSection
     
     def initialize(name, section=nil)
       self.name, self.section = name, section
       self.date = DateTime.now
-      self.synopsis = nil
       yield self
     end
 
@@ -49,9 +49,7 @@ module RTFM
         out.section "NAME"
         out.Nm name
         out.Nd summary
-        out.section "SYNOPSIS"
-        out << synopsis if synopsis
-        [@description, @see_also, @history, @authors, @bugs].each do |sect|
+        [@synopsis, @description, @see_also, @history, @authors, @bugs].each do |sect|
           out << sect.to_groff if sect
         end
       end

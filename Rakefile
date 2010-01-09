@@ -57,12 +57,17 @@ task :output do
   
   out = RTFM::ManPage.new("testing", 2) do |page|
     page.summary = "testing man page"
+    page.synopsis do |syn|
+      syn.option(:verbose, "")
+      syn.option(:silliness, "", :argument => "n")
+      syn.option(:input, "", :argument => "<input>")
+    end
     page.description do |desc|
       desc.body = "This is a small, temporary description of the testing " +
                   "man page."
-      desc.add_option(:verbose, "The verbose flag does a lot of stuff.")
-      desc.add_option(:silliness, "Set how silly the application should be.", :argument => "n")
-      desc.add_option(:input, "The input flag takes a filename", :argument => "<input>")
+      desc.option(:verbose, "The verbose flag does a lot of stuff.")
+      desc.option(:silliness, "Set how silly the application should be.", :argument => "n")
+      desc.option(:input, "The input flag takes a filename", :argument => "<input>")
     end
     page.see_also do |also|
       also.reference "rails", 1
