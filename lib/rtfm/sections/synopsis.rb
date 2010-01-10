@@ -13,11 +13,26 @@ module RTFM
     end
     alias_method :option, :add_option
     
+    def compare_flags(a, b)
+      a_ord, b_ord = a.ord, b.ord
+      if ('0'.ord .. '9'.ord).include?(a_ord)
+        a_ord += 'z'.ord
+      end
+      if ('0'.ord .. '9'.ord).include?(b_ord)
+        b_ord += 'z'.ord
+      end
+      a_ord <=> b_ord
+    end
+    
     def to_groff
+      flags = @options.select {|opt| opt.title.size == 1 && !opt.argument}
+      long_args = @options - flags
+      
       GroffString.groffify do |out|
         out.section "synopsis"
         out.put_name
-        @options.each do |opt|
+        out.Op "Fl", flags.map {|flag| flag.title}.sort {|a, b| compare_flags(a,b)}.join
+        long_args.each do |opt|
           out << opt.to_groff(:option)
         end
       end

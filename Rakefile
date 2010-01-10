@@ -58,6 +58,12 @@ require 'rtfm/tasks'
 
 RTFM::ManPage.new("testing", 2) do |page|
   page.summary = "testing man page"
+  page.option :r, "Some r flag"
+  page.option :j, "Some j flag"
+  page.option :k, "Some k flag"
+  page.option :"0", "Some zero flag"
+  page.option :A, "Some capitalized flag"
+  page.option :Z, "some big-z flag"
   page.option :verbose, "The verbose flag does a lot of stuff."
   page.option :silliness, "Set how silly the application should be.", :argument => "n"
   page.option :input, "The input flag takes a filename", :argument => "<input>"

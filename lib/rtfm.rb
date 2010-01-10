@@ -1,5 +1,15 @@
 $:.unshift File.expand_path(File.dirname(__FILE__))
 
+if RUBY_VERSION < "1.9"
+  class String
+    unless method_defined?(:ord)
+      def ord
+        self[0]
+      end
+    end
+  end
+end
+
 require 'rtfm/groffstring'
 require 'rtfm/option'
 
