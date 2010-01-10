@@ -6,7 +6,11 @@ begin
   Jeweler::Tasks.new do |gem|
     gem.name = "rtfm"
     gem.summary = "Create makefiles declaratively. Comes with rake tasks."
-    gem.description = %Q{TODO: longer description of your gem}
+    gem.description = <<-EOF
+Using RTFM, you can declaratively create nice, standard man pages for your 
+Ruby projects using a slick, maintainable DSL. It also includes rake tasks 
+to aid in debugging, generating, and installing your man files.
+EOF
     gem.email = "michael.j.edgar@dartmouth.edu"
     gem.homepage = "http://github.com/michaeledgar/rtfm"
     gem.authors = ["Michael Edgar"]
