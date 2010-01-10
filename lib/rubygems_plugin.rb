@@ -16,5 +16,5 @@ class Gem::Commands::ManCommand < Gem::Command
 
 end
 
-Gem::CommandManager.instance.register_command :graph
+Gem::CommandManager.instance.register_command :man
 
