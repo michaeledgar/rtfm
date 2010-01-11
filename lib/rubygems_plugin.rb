@@ -33,7 +33,7 @@ class Gem::Commands::ManCommand < Gem::Command
       if path then
         man_path = File.join path, 'man'
         if File.exist?(man_path) && File.directory?(man_path) then
-          Dir[File.join man_path, "**"].each do |man_file|
+          Dir[File.join(man_path, "**")].each do |man_file|
             dispatch(man_file)
           end
         else
