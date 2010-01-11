@@ -2,8 +2,16 @@ module RTFM
   class SynopsisSection
     def initialize
       @options = []
+      @arguments = []
       yield self if block_given?
     end
+    
+    def add_argument(*args)
+      @arguments.concat args
+    end
+    alias_method :add_arguments, :add_argument
+    alias_method :argument, :add_argument
+    alias_method :arguments, :add_argument
     
     def add_option(*args)
       if args.size == 1 && args.first.is_a?(Option)

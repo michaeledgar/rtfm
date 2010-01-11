@@ -1,7 +1,6 @@
 require 'rubygems/command_manager'
 
 require 'rubygems/command'
-require 'rubygems_analyzer'
 
 class Gem::Commands::ManCommand < Gem::Command
 
