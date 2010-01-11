@@ -43,6 +43,9 @@ module RTFM
         long_args.each do |opt|
           out << opt.to_groff(:option)
         end
+        @arguments.each do |arg|
+          out.Ar arg
+        end
       end
     end
   end
