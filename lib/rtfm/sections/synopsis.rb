@@ -1,5 +1,5 @@
 module RTFM
-  class SynopsisSection
+  class SynopsisSection < Section
     def initialize
       @options = []
       @arguments = []

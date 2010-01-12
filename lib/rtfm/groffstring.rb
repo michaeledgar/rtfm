@@ -17,17 +17,18 @@ module RTFM
       source
     end
     
-    def rstrip
-      source.rstrip
-    end
-    
     def add_line(line)
-      source << line.rstrip << "\n"
+      source << line.to_groff.rstrip << "\n"
     end
     alias_method :<<, :add_line
     
     def section(section)
       self.Sh section.upcase
+    end
+    
+    def paragraph(text)
+      text = Paragraph.new(text) unless text.is_a?(Paragraph)
+      self << text
     end
     
     def put_name

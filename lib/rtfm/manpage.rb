@@ -32,6 +32,7 @@ module RTFM
     end
     
     text_section :bugs, :diagnostics, :compatibility, :standards, :history
+    add_section :files, FilesSection
     add_section :see_also, SeeAlsoSection
     add_section :description, DescriptionSection
     add_section :authors, AuthorsSection
@@ -61,8 +62,8 @@ module RTFM
         out.section "NAME"
         out.Nm name
         out.Nd summary
-        [@synopsis, @description, @see_also, @history, @authors, @bugs].each do |sect|
-          out << sect.to_groff if sect
+        [@synopsis, @description, @files, @see_also, @history, @authors, @bugs].each do |sect|
+          out << sect if sect
         end
       end
     end

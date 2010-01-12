@@ -1,5 +1,13 @@
 module RTFM
   class Option < Struct.new(:title, :desc, :opts)
+    def initialize(*args)
+      super(*args)
+      self.opts ||= {}
+      if self.opts[:short]
+        self.title, opts[:long] = opts.delete(:short), self.title
+      end
+    end
+    
     def title
       super.to_s
     end
@@ -29,6 +37,11 @@ module RTFM
         when :item
           out.Pp
           out.It *args
+          if opts[:long]
+            long_version = args.dup
+            long_version[1] = "-#{opts[:long]}"
+            out.It *long_version
+          end
           out << self.desc
         end
       end

@@ -1,6 +1,7 @@
 module RTFM
-  class SeeAlsoSection
+  class SeeAlsoSection < Section
     def initialize
+      super
       @references = {}
       yield self if block_given?
     end

@@ -74,7 +74,9 @@ RTFM::ManPage.new("testing", 2) do |page|
   
   page.description do |desc|
     desc.body = "This is a small, temporary description of the testing " +
-                "man page."
+                "man page. I'm going to fill in some totally *random* text here that " +
+                "nobody is **ever** going to pay attention to! In fact, I think _this_ is " +
+                "the dumbest paragraph __ever__."
   end
   page.see_also do |also|
     also.reference "rails", 1

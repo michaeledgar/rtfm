@@ -57,7 +57,6 @@ class Gem::Commands::ManCommand < Gem::Command
     end
   end
   
-  
   MAN_DIR = "/usr/share/man/"
   
   ##
