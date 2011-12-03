@@ -1,3 +1,4 @@
+require 'date'
 module RTFM
   class ManPage < Struct.new(:name, :section, :date, :summary)
     class << self
