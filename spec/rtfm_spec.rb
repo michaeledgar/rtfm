@@ -3,7 +3,7 @@ require 'spec_helper'
 describe "rtfm" do
   before do
     @rtfm = ManPage.new("testing", 2) do |page|
-              page.date = Date.parse("1/2/2010")
+              page.date = Date.strptime("1/2/2010", "%m/%d/%Y")
               page.summary = "testing man page"
               page.see_also do |also|
                 also.reference "madeup", 4
